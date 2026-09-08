@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open WebUI + Ollama — Local AI Setup Guide</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --border: #262b36;
+    --text: #e6e9ef;
+    --muted: #9aa4b2;
+    --accent: #7dd3fc;
+    --accent2: #a78bfa;
+    --good: #4ade80;
+    --code-bg: #0b0d12;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 96px; }
+  header { margin-bottom: 40px; }
+  h1 {
+    font-size: 2.1rem;
+    margin: 0 0 8px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subtitle { color: var(--muted); font-size: 1.05rem; }
+  .badges { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--panel);
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 1.05rem; margin: 24px 0 8px; color: var(--accent); }
+  p { color: #cfd4dd; }
+  a { color: var(--accent); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  p code, li code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 0.85em;
+  }
+  ol, ul { color: #cfd4dd; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  img.screenshot {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: block;
+    margin: 16px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--muted); font-weight: 600; }
+  .metric { color: var(--good); font-weight: 600; }
+  .note {
+    border-left: 3px solid var(--accent2);
+    padding: 12px 16px;
+    background: rgba(167,139,250,0.08);
+    border-radius: 0 8px 8px 0;
+    color: #cfd4dd;
+    font-size: 0.92rem;
+  }
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Open WebUI + Ollama</h1>
+  <p class="subtitle">Your own private ChatGPT, running entirely on your Mac — no internet required after setup.</p>
+  <div class="badges">
+    <span class="badge">Open WebUI v0.11.3</span>
+    <span class="badge">Ollama 0.32.15</span>
+    <span class="badge">Apple M1 Max · 64GB</span>
+    <span class="badge">macOS 26.6.2</span>
+  </div>
+</header>
+
+<h2>What is this?</h2>
+<p>
+  <strong>Open WebUI</strong> is an open-source, self-hosted web interface for talking to large language models.
+  It works with <strong>Ollama</strong> or any OpenAI-compatible API, and — because it runs entirely on your own
+  machine — it lets you use a ChatGPT-like chat experience completely offline, with your conversations and data
+  never leaving your computer.
+</p>
+
+<h2>Why run AI locally? (Rationale)</h2>
+<div class="panel">
+  <p>
+    Cloud AI assistants like ChatGPT are convenient, but every message you send travels to a third-party server,
+    which raises real concerns around <strong>privacy</strong>, <strong>cost</strong>, and <strong>availability</strong>.
+    Running the model locally with Ollama and driving it through Open WebUI addresses all three:
+  </p>
+  <ul>
+    <li><strong>Privacy &amp; data ownership</strong> — prompts, files, and chat history stay on your disk. Nothing is sent to an external company.</li>
+    <li><strong>No internet dependency</strong> — once a model is downloaded, the whole stack works on a plane, on a train, or in a bunker with no Wi-Fi.</li>
+    <li><strong>Zero marginal cost</strong> — no per-token billing. You already paid for the hardware; inference is "free" beyond electricity.</li>
+    <li><strong>Full model choice</strong> — swap between Llama 3, Gemma 3, Qwen 3, DeepSeek-R1, and more, side by side, in the same UI.</li>
+    <li><strong>Familiar UX</strong> — Open WebUI mirrors the ChatGPT interface (chat history, model picker, voice input, RAG/file upload), so there's no learning curve.</li>
+  </ul>
+  <p style="color:var(--muted); font-size:0.9rem; margin-top:16px;">
+    Original brief (Turkish): <em>"Open WebUI, Ollama veya OpenAI uyumlu API'lerle çalışan, tamamen kendi
+    bilgisayarınızda barındırıp internetsiz kullanabildiğiniz, açık kaynaklı kendi ChatGPT'niz gibi
+    kullanabileceğiniz bir web uygulaması arayüzüdür."</em>
+  </p>
+</div>
+
+<h2>Screenshot — it's running</h2>
+<img class="screenshot" src="assets/openwebui-chat.jpg" alt="Open WebUI running locally at localhost:8080, signed in, model set to llama3:latest, message box with a hello prompt ready to send">
+<p style="color:var(--muted); font-size:0.85rem;">Open WebUI at <code>http://localhost:8080</code>, backed by Ollama on the same machine, with <code>llama3:latest</code> selected as the active model.</p>
+
+<h2>How to run it yourself</h2>
+
+<h3>1. Prerequisites</h3>
+<ul>
+  <li><a href="https://ollama.com" target="_blank" rel="noopener">Ollama</a> installed (<code>brew install ollama</code> on macOS)</li>
+  <li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">uv / uvx</a> installed (<code>brew install uv</code>) — lets you run Open WebUI without Docker</li>
+</ul>
+
+<h3>2. Start Ollama</h3>
+<pre><code>ollama serve &amp;
+ollama list          # see which models you already have</code></pre>
+<p>If you don't have a chat model yet, pull one:</p>
+<pre><code>ollama pull llama3.2:1b   # ~1.3GB, fast, good for testing</code></pre>
+
+<h3>3. Start Open WebUI</h3>
+<pre><code>uvx open-webui serve --port 8080</code></pre>
+<p>
+  The first run downloads Open WebUI's Python dependencies and a small embedding model
+  (<code>sentence-transformers/all-MiniLM-L6-v2</code>) — this can take a couple of minutes. Subsequent
+  starts are fast.
+</p>
+
+<h3>4. Open it in your browser</h3>
+<pre><code>open -a "Google Chrome" http://localhost:8080</code></pre>
+<p>On first visit you'll be asked to create a local admin account (name, email, password) — this account
+  lives only in Open WebUI's local SQLite database on your machine, not on any external server.</p>
+
+<h3>5. Chat</h3>
+<ol>
+  <li>Click the model dropdown (top of the message box) and pick an installed model, e.g. <code>llama3:latest</code>.</li>
+  <li>Type your message and hit <kbd>Enter</kbd>.</li>
+  <li>Open WebUI forwards the request to Ollama's local API (<code>http://localhost:11434</code>) and streams the response back.</li>
+</ol>
+
+<h2>Verified: "hello" round-trip timing</h2>
+<p>
+  To confirm the stack actually works end-to-end, the same request Open WebUI sends was issued directly against
+  Ollama's local API on this machine:
+</p>
+<pre><code>curl http://localhost:11434/api/chat -d '{
+  "model": "llama3:latest",
+  "messages": [{"role": "user", "content": "hello"}],
+  "stream": false
+}'</code></pre>
+<p><strong>Response:</strong> <em>"Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?"</em></p>
+
+<table>
+  <tr><th>Run</th><th>Total duration</th><th>Model load</th><th>Prompt eval</th><th>Response generation</th></tr>
+  <tr><td>Cold start (model not yet in memory)</td><td class="metric">4.74s</td><td>4.15s</td><td>0.13s</td><td>0.46s (26 tokens)</td></tr>
+  <tr><td>Warm (model already loaded)</td><td class="metric">3.24s</td><td>0.33s</td><td>0.16s</td><td>2.52s (26 tokens)</td></tr>
+</table>
+<p class="note">
+  Most of the "cold start" time is simply loading the 4.7GB <code>llama3:latest</code> weights into memory the
+  first time — after that, only the actual prompt processing and token generation matter. Timings will vary with
+  model size and hardware; these numbers are from an Apple M1 Max with 64GB RAM.
+</p>
+
+<h2>All commands used in this setup</h2>
+<pre><code># 1. Start Ollama's background server
+ollama serve &amp;
+
+# 2. Confirm which local models are available
+ollama list
+
+# 3. Launch Open WebUI (no Docker needed) on port 8080
+uvx open-webui serve --port 8080
+
+# 4. Open the app in Chrome
+open -a "Google Chrome" http://localhost:8080
+
+# 5. Direct API sanity check + timing (bypasses the UI, talks straight to Ollama)
+curl http://localhost:11434/api/chat -d '{
+  "model": "llama3:latest",
+  "messages": [{"role": "user", "content": "hello"}],
+  "stream": false
+}'</code></pre>
+
+<h2>Note on this page</h2>
+<p class="note">
+  This page is published on <strong>GitHub Pages</strong>, which only serves static files — it cannot run Ollama
+  or Open WebUI for you. It documents how to stand up the stack on your own machine. Open WebUI itself must run
+  locally (or on a server you control) because it needs a live backend process and access to a local/remote
+  Ollama instance.
+</p>
+
+<footer>
+  <p><a href="https://github.com/rifaterdemsahin/openwebui" target="_blank" rel="noopener">Source on GitHub</a> · Open WebUI docs: <a href="https://docs.openwebui.com" target="_blank" rel="noopener">docs.openwebui.com</a> · Ollama: <a href="https://ollama.com" target="_blank" rel="noopener">ollama.com</a></p>
+</footer>
+
+</div>
+</body>
+</html>
