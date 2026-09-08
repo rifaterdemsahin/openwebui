@@ -80,6 +80,10 @@
     padding: 20px 24px;
     margin: 16px 0;
   }
+  .code-block-wrapper {
+    position: relative;
+    margin: 16px 0;
+  }
   pre {
     background: var(--code-bg);
     border: 1px solid var(--border);
@@ -87,6 +91,29 @@
     padding: 16px 18px;
     overflow-x: auto;
     font-size: 0.85rem;
+    margin: 0;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover {
+    background: var(--border);
+    color: var(--accent);
+  }
+  .copy-btn.copied {
+    background: var(--good);
+    color: var(--bg);
   }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   p code, li code {
@@ -194,6 +221,15 @@
   <p style="margin: 8px 0;"><a href="http://localhost:8080" target="_blank" rel="noopener" style="font-size: 1.05rem; font-weight: 600;">→ Open http://localhost:8080</a></p>
   <p style="color:var(--muted); font-size:0.9rem; margin: 12px 0 0 0;">
     Don't have it running yet? <a href="#how-to-run-it-yourself">Jump to setup instructions</a> ↓
+  </p>
+</div>
+
+<h2>🖥️ Quick terminal access</h2>
+<div class="panel" style="background: rgba(125, 211, 252, 0.08); border-color: var(--accent);">
+  <p style="margin: 0 0 12px 0;">Use your local Chrome terminal to run commands:</p>
+  <p style="margin: 8px 0;"><a href="http://127.0.0.1:3847/" target="_blank" rel="noopener" style="font-size: 1.05rem; font-weight: 600;">→ Open Chrome Terminal (http://127.0.0.1:3847/)</a></p>
+  <p style="color:var(--muted); font-size:0.9rem; margin: 12px 0 0 0;">
+    All commands below have <strong>copy buttons</strong> — click to copy and paste into your terminal.
   </p>
 </div>
 
@@ -433,6 +469,32 @@ curl http://localhost:11434/api/chat -d '{
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    // Add copy buttons to all code blocks
+    document.querySelectorAll("pre").forEach(pre => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "code-block-wrapper";
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "copy-btn";
+      copyBtn.textContent = "Copy";
+      copyBtn.type = "button";
+      wrapper.appendChild(copyBtn);
+
+      copyBtn.addEventListener("click", () => {
+        const code = pre.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          copyBtn.textContent = "Copied! ✓";
+          copyBtn.classList.add("copied");
+          setTimeout(() => {
+            copyBtn.textContent = "Copy";
+            copyBtn.classList.remove("copied");
+          }, 2000);
+        });
+      });
+    });
+
     const debugToggle = document.getElementById("debugToggle");
     const debugClose = document.getElementById("debugClose");
     const debugMenuOverlay = document.getElementById("debugMenuOverlay");
