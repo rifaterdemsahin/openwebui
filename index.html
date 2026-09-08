@@ -188,6 +188,15 @@
   </div>
 </header>
 
+<h2>⚡ Run it now</h2>
+<div class="panel" style="background: rgba(74, 222, 128, 0.08); border-color: var(--good);">
+  <p style="margin: 0 0 12px 0;">Open WebUI is already running? Access it here:</p>
+  <p style="margin: 8px 0;"><a href="http://localhost:8080" target="_blank" rel="noopener" style="font-size: 1.05rem; font-weight: 600;">→ Open http://localhost:8080</a></p>
+  <p style="color:var(--muted); font-size:0.9rem; margin: 12px 0 0 0;">
+    Don't have it running yet? <a href="#how-to-run-it-yourself">Jump to setup instructions</a> ↓
+  </p>
+</div>
+
 <h2>What is this?</h2>
 <p>
   <strong>Open WebUI</strong> is an open-source, self-hosted web interface for talking to large language models.
@@ -221,7 +230,7 @@
 <img class="screenshot" src="3_Simulation/openwebui-chat.jpg" alt="Open WebUI running locally at localhost:8080, signed in, model set to llama3:latest, message box with a hello prompt ready to send">
 <p style="color:var(--muted); font-size:0.85rem;">Open WebUI at <code>http://localhost:8080</code>, backed by Ollama on the same machine, with <code>llama3:latest</code> selected as the active model.</p>
 
-<h2>How to run it yourself</h2>
+<h2 id="how-to-run-it-yourself">How to run it yourself</h2>
 
 <h3>1. Prerequisites</h3>
 <ul>
@@ -331,7 +340,8 @@ curl http://localhost:11434/api/chat -d '{
   let navigationData = {
     projectMenu: [
       {"label": "Home", "url": "index.html"},
-      {"label": "Setup Guide", "url": "5_Symbols/markdown_renderer.html?file=2_Environment/setup_ai.md"}
+      {"label": "Setup Guide", "url": "5_Symbols/markdown_renderer.html?file=2_Environment/setup_ai.md"},
+      {"label": "Local Demo", "url": "http://localhost:8080"}
     ],
     debugMenu: [
       {"label": "1. Real Unknown", "url": "1_Real_Unknown/README.md"},

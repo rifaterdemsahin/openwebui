@@ -25,6 +25,8 @@ uvx open-webui serve --port 8080
 open -a "Google Chrome" http://localhost:8080
 ```
 
+Once running, Open WebUI is available at **http://localhost:8080** — see [`2_Environment/local_server.md`](2_Environment/local_server.md) for more details on running and troubleshooting locally.
+
 ## 🗂️ Project structure
 
 This repo follows the [`delivery-pilot-template`](https://github.com/rifaterdemsahin/delivery-pilot-template)
