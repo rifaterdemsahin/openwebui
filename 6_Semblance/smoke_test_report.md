@@ -4,9 +4,9 @@
 > Latest run overwrites this file; one report per test run.
 
 ## Run Info
-- **Date:** 2026-09-08 10:15
+- **Date:** 2026-09-08 10:17
 - **Trigger:** Manual run
-- **Mode:** Local filesystem
+- **Mode:** Cloud (https://rifaterdemsahin.github.io/openwebui/)
 - **Tester:** smoke_test.py (automated)
 - **Verdict:** ✅ ALL PASS
 
@@ -23,6 +23,7 @@
 | Social Links | ✅ Pass | — |
 | README Pages URL | ✅ Pass | — |
 | Secrets Scan | ✅ Pass | — |
+| Deployed Site Reachable | ✅ Pass | HTTP 200 |
 
 ## Failures
 
