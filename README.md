@@ -1,14 +1,17 @@
-# openwebui
+# 🤖 openwebui
 
 Open WebUI is an open-source, self-hosted web interface for chatting with LLMs. It works with
-[Ollama](https://ollama.com) or any OpenAI-compatible API, runs entirely on your own machine, and
-gives you a ChatGPT-like experience with no internet connection required after setup.
+[Ollama](https://ollama.com) 🦙 or any OpenAI-compatible API, runs entirely on your own machine, and
+gives you a ChatGPT-like experience 🔒 with no internet connection required after setup.
 
-See [`index.html`](index.html) (published via GitHub Pages) for the full setup guide, a screenshot
-of it running, the commands used, and a verified "hello" round-trip timing test against a local
-Ollama model.
+### 📖 Full guide (GitHub Pages)
 
-## Quick start
+👉 **https://rifaterdemsahin.github.io/openwebui/**
+
+The published page has the full setup guide, a 📸 screenshot of it running, every command used, and
+a verified ⏱️ "hello" round-trip timing test against a local Ollama model. Source: [`index.html`](index.html).
+
+## 🚀 Quick start
 
 ```bash
 # 1. Start Ollama
