@@ -1,0 +1,30 @@
+# 🛠 Fix Log — openwebui
+
+## Format
+Each entry follows: `[DATE] [STAGE] [STATUS] — Fix description`
+
+Status: `APPLIED` | `VERIFIED` | `WORKAROUND` | `PENDING`
+
+---
+
+## Fix Entries
+
+<!-- Add new entries below this line, newest first -->
+
+[2026-09-08] [1_Real_Unknown] [APPLIED] — Fixed inherited absolute `file:///Users/rifaterdemsahin/projects/delivery-pilot-template/...` links from the template into repo-relative paths, and rewrote `rifaterdemsahin.github.io/delivery-pilot-template` / `github.com/rifaterdemsahin/delivery-pilot-template` references to point at this repo (`openwebui`).
+
+## Fix → Test Pipeline
+
+```
+error.log entry
+    ↓
+Root cause analysis (gap_analysis.md)
+    ↓
+Fix applied → fix.log entry (APPLIED)
+    ↓
+Validation in 7_Testing_Known
+    ↓
+fix.log entry updated (VERIFIED)
+    ↓
+Lesson captured in lessons_learned.md
+```
